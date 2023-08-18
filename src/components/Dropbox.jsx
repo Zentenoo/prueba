@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../services/firebase';
 import { getDocs, collection, query, where } from 'firebase/firestore';
+import Select from 'react-select';
 
 export const Dropbox = () => {
   const [info, setInfo] = useState([]);
@@ -22,22 +23,33 @@ export const Dropbox = () => {
     getInfo();
   }, [searchText]);
 
+  const selectOptions = info.map((item) => ({
+    value: item.id,
+    label: item.Nombre
+  }));
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? 'blue' : 'black',
+    }),
+    container: (provided) => ({
+      ...provided,
+      width: '200px', 
+    }),
+  };
+
   return (
-    <div>
-      <input
-        type="text"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',height: '100vh'}}>
+      <Select
+        styles={customStyles}
+        options={selectOptions}
+        isSearchable
         placeholder="Buscar por Nombre"
+        onChange={(selectedOption) => {
+        }}
       />
-      <select>
-        {info.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.Nombre}
-          </option>
-        ))}
-      </select>
     </div>
   );
 };
+
 
