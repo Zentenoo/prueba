@@ -21,4 +21,3 @@ pop-up, parte del componente, que permita agregar un nuevo objeto con el texto y
 pero permitiendo editarlo antes de guardar también. El proyecto debe correrse en un contenedor de docker.
 
 
-Disculpe en el punto 4, quiere que tenga un Dropbox el cual busque solo por el nombre o también con los otros parámetros como NIT, código, etc
