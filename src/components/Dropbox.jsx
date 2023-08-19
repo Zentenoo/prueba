@@ -6,9 +6,12 @@ import Select from 'react-select';
 export const Dropbox = () => {
   const [info, setInfo] = useState([]);
   const [searchText, setSearchText] = useState('');
-  
+  const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+
   const infoCollectionRef = collection(db, 'info');
-  const queryRef = query(infoCollectionRef, where('Nombre', '>=', searchText)); 
+  const queryRef = query(infoCollectionRef, where('Nombre', '>=', searchText));
 
   useEffect(() => {
     const getInfo = async () => {
@@ -25,7 +28,11 @@ export const Dropbox = () => {
 
   const selectOptions = info.map((item) => ({
     value: item.id,
-    label: item.Nombre
+    label: item[selectedAttribute],
+  }));
+  const attributeOptions = Object.keys(info[0] || {}).map((attribute) => ({
+    value: attribute,
+    label: attribute,
   }));
   const customStyles = {
     option: (provided, state) => ({
@@ -34,22 +41,34 @@ export const Dropbox = () => {
     }),
     container: (provided) => ({
       ...provided,
-      width: '200px', 
+      width: '250px',
     }),
   };
 
+  const handleAttributeChange = (selectedOption) => {
+    setSelectedAttribute(selectedOption.value);
+    setSearchText('');
+    setSelectedOptions([]);
+  };
+
   return (
-    <div style={{display:'flex',justifyContent:'center',alignItems:'center',height: '100vh'}}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <Select
         styles={customStyles}
-        options={selectOptions}
-        isSearchable
-        placeholder="Buscar por Nombre"
-        onChange={(selectedOption) => {
-        }}
+        options={attributeOptions}
+        value={{ value: selectedAttribute, label: selectedAttribute }}
+        onChange={handleAttributeChange}
       />
+      {selectedAttribute && (
+        <Select
+          styles={customStyles}
+          options={selectOptions}
+          value={selectedOptions}
+          isSearchable
+          placeholder={`Buscar por ${selectedAttribute}`}
+          onChange={(selectedOption) => {setSelectedOptions(selectedOption)}}
+        />
+      )}
     </div>
   );
 };
-
-
