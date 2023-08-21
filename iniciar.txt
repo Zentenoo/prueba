@@ -1,0 +1,7 @@
+**PARA CORRERLO EN UN CONTENEDOR DOCKER**
+
+*ABRIR TERMINAL*    (CREAR IMAGEN E INICIAR CONTENEDOR)
+docker-compose up --build --no-recreate -d      
+*ABRIR OTRA TERMINAL*           
+docker exec -it vite_docker sh
+    npm i && npm run dev        #COMANDOS PARA INSTALAR E INICIAR LA APLICACION
